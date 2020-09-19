@@ -13,10 +13,99 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const questions = [
+    {
+        type: "list",
+        message: "Are you an employee?",
+        name: "employee",
+        choices:["Yes","No"]
+        //if statement to discontinue script
+    },
 
+    {
+        type: "input",
+        message: "What is your name?",
+        name: "name",
+        when: function (questions) {
+            return questions.employee === "Yes"
+        }
+    },
+
+    {
+        type: "input",
+        message: "What is your id number?",
+        name: "id",
+        when: function (questions) {
+            return questions.employee === "Yes"
+        }
+    },
+
+    {
+        type: "input",
+        message: "What is your email?",
+        name: "email",
+        when: function (questions) {
+            return questions.employee === "Yes"
+        }
+    },
+
+    {
+        type: "list",
+        message: "What is your role?",
+        name: "role",
+        choices:["Intern","Engineer","Manager"],
+        when: function (questions) {
+            return questions.employee === "Yes"
+        }
+    },
+//Intern question
+    {
+        type: "input",
+        message: "What school do you go to?",
+        name: "school",
+        when: function (questions) {
+            return questions.role === "Intern"
+        }
+    },
+//Engineer question
+    {
+        type: "input",
+        message: "What is your github?",
+        name: "github",
+        when: function (questions) {
+            return questions.role === "Engineer"
+        }
+    },
+//Manager question
+    {
+        type:"input",
+        message:"What is your office number?",
+        name:"contributing",
+        when: function (questions) {
+            return questions.role === "Manager"
+        }
+    },
+
+];
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+// function to write in HTML file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, function () {
+
+    })
+}
+
+// function to initialize program
+function init() {
+    inquirer.prompt(questions).then(function (data) {
+
+
+        const HTML = generateMarkdown(data)
+        writeToFile("./index.html", HTML)
+    })
+}
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
