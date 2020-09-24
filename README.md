@@ -6,7 +6,8 @@ Usage: The only way to use this app is to run app.js with node.js.
 
 Credits: This app was done with the help of my tutor Phil and my TAs.
 
-
+Image:
+![](img/screenshot.jpg)
 
 
 
