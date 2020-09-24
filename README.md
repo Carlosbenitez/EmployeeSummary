@@ -1,3 +1,16 @@
+Title: Employee Summary Creator
+
+Description: This project was made with javascript, HTML, and node. The app.js was used to connect my lib folder for my classes files and to be able to the HTML renderer file. The main reason this app was created was to a team summary of all employees involved on a project. Employees with different titles are given questions that pull information from the user that is specific to that job title.
+
+Usage: The only way to use this app is to run app.js with node.js.
+
+Credits: This app was done with the help of my tutor Phil and my TAs.
+
+
+
+
+
+
 # Unit 10 OOP Homework: Template Engine - Employee Summary
 
 One of the most important aspects of programming is writing code that is readable, reliable, and maintainable. Oftentimes, *how* we design our code is just as important as the code itself. In this homework assignment, your challenge is to build a Node CLI that takes in information about employees and generates an HTML webpage that displays summaries for each person. Since testing is a key piece in making code maintainable, you will also be ensuring that all unit tests pass.
