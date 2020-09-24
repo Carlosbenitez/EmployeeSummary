@@ -10,16 +10,25 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+const employeeArray = []
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 const questions = [
     {
         type: "list",
-        message: "Are you an employee?",
+        message: "Would you like to add an employee?",
         name: "employee",
         choices:["Yes","No"]
-        //if statement to discontinue script
+    },
+
+    {
+        type: "list",
+        message: "What is your role?",
+        name: "role",
+        choices:["Intern","Engineer","Manager"],
+        when: function (questions) {
+            return questions.employee === "Yes"
+        }
     },
 
     {
@@ -49,15 +58,6 @@ const questions = [
         }
     },
 
-    {
-        type: "list",
-        message: "What is your role?",
-        name: "role",
-        choices:["Intern","Engineer","Manager"],
-        when: function (questions) {
-            return questions.employee === "Yes"
-        }
-    },
 //Intern question
     {
         type: "input",
@@ -80,7 +80,7 @@ const questions = [
     {
         type:"input",
         message:"What is your office number?",
-        name:"contributing",
+        name:"officeNumber",
         when: function (questions) {
             return questions.role === "Manager"
         }
@@ -101,11 +101,46 @@ function writeToFile(fileName, data) {
 function init() {
     inquirer.prompt(questions).then(function (data) {
 
-
-        const HTML = generateMarkdown(data)
-        writeToFile("./index.html", HTML)
+        if(data.employee=== "Yes"){
+            switch(data.role){
+                case "Manager":
+                addManager(data)
+                    break
+                case "Intern":
+                addIntern(data)
+                    break
+                case "Engineer":
+                addEngineer(data)
+                    break
+            }
+            init();
+        }
+        else{
+            if(employeeArray.length>0){
+                const HTML = render(employeeArray)
+                writeToFile(outputPath, HTML)
+            }
+        }
     })
 }
+function addManager(data){
+    const manager=new Manager(data.name,data.id,data.email,data.officeNumber)
+    employeeArray.push(manager)
+}
+function addIntern(data){
+    const intern= new Intern(data.name,data.id,data.email,data.school)
+    employeeArray.push(intern)
+}
+function addEngineer(data){
+    const engineer= new Engineer(data.name,data.id,data.email,data.github)
+    employeeArray.push(engineer)
+}
+
+
+
+// function call to initialize program
+init();
+
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
